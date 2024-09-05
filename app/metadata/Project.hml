@@ -1,0 +1,183 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Project
+  fields:
+    - name: id
+      type: ObjectId!
+    - name: createdAt
+      type: String
+    - name: description
+      type: String
+    - name: projectId
+      type: String
+    - name: projectName
+      type: String
+    - name: tasks
+      type: "[String!]"
+    - name: updatedAt
+      type: String
+    - name: users
+      type: "[String!]"
+  graphql:
+    typeName: Project
+    inputTypeName: ProjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_connector
+      dataConnectorObjectType: project
+      fieldMapping:
+        id:
+          column:
+            name: _id
+        createdAt:
+          column:
+            name: createdAt
+        description:
+          column:
+            name: description
+        projectId:
+          column:
+            name: projectId
+        projectName:
+          column:
+            name: projectName
+        tasks:
+          column:
+            name: tasks
+        updatedAt:
+          column:
+            name: updatedAt
+        users:
+          column:
+            name: users
+
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Project
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - createdAt
+          - description
+          - projectId
+          - projectName
+          - tasks
+          - updatedAt
+          - users
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: ProjectBoolExp
+  objectType: Project
+  dataConnectorName: my_connector
+  dataConnectorObjectType: project
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: createdAt
+      operators:
+        enableAll: true
+    - fieldName: description
+      operators:
+        enableAll: true
+    - fieldName: projectId
+      operators:
+        enableAll: true
+    - fieldName: projectName
+      operators:
+        enableAll: true
+    - fieldName: tasks
+      operators:
+        enableAll: true
+    - fieldName: updatedAt
+      operators:
+        enableAll: true
+    - fieldName: users
+      operators:
+        enableAll: true
+  graphql:
+    typeName: ProjectBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Project
+  objectType: Project
+  source:
+    dataConnectorName: my_connector
+    collection: project
+  filterExpressionType: ProjectBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: createdAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: description
+      orderByDirections:
+        enableAll: true
+    - fieldName: projectId
+      orderByDirections:
+        enableAll: true
+    - fieldName: projectName
+      orderByDirections:
+        enableAll: true
+    - fieldName: tasks
+      orderByDirections:
+        enableAll: true
+    - fieldName: updatedAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: users
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: project
+    selectUniques:
+      - queryRootField: projectById
+        uniqueIdentifier:
+          - projectId
+    orderByExpressionType: ProjectOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Project
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        
+---
+kind: Relationship
+version: v1
+definition:
+  name: project_task
+  sourceType: Project
+  target:
+    model:
+      name: Task
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: projectId
+      target:
+        modelField:
+          - fieldName: projectId
+  description: List of Tasks from a Project
+  graphql: 
+    aggregateFieldName: embedded_task

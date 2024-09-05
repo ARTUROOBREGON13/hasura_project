@@ -1,0 +1,174 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Task
+  fields:
+    - name: id
+      type: ObjectId!
+    - name: assignedUsers
+      type: "[String!]"
+    - name: createdAt
+      type: String
+    - name: description
+      type: String
+    - name: projectId
+      type: String
+    - name: status
+      type: String
+    - name: taskId
+      type: String
+    - name: taskName
+      type: String
+    - name: updatedAt
+      type: String
+  graphql:
+    typeName: Task
+    inputTypeName: TaskInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_connector
+      dataConnectorObjectType: task
+      fieldMapping:
+        id:
+          column:
+            name: _id
+        assignedUsers:
+          column:
+            name: assignedUsers
+        createdAt:
+          column:
+            name: createdAt
+        description:
+          column:
+            name: description
+        projectId:
+          column:
+            name: projectId
+        status:
+          column:
+            name: status
+        taskId:
+          column:
+            name: taskId
+        taskName:
+          column:
+            name: taskName
+        updatedAt:
+          column:
+            name: updatedAt
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Task
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - assignedUsers
+          - createdAt
+          - description
+          - projectId
+          - status
+          - taskId
+          - taskName
+          - updatedAt
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: TaskBoolExp
+  objectType: Task
+  dataConnectorName: my_connector
+  dataConnectorObjectType: task
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: assignedUsers
+      operators:
+        enableAll: true
+    - fieldName: createdAt
+      operators:
+        enableAll: true
+    - fieldName: description
+      operators:
+        enableAll: true
+    - fieldName: projectId
+      operators:
+        enableAll: true
+    - fieldName: status
+      operators:
+        enableAll: true
+    - fieldName: taskId
+      operators:
+        enableAll: true
+    - fieldName: taskName
+      operators:
+        enableAll: true
+    - fieldName: updatedAt
+      operators:
+        enableAll: true
+  graphql:
+    typeName: TaskBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Task
+  objectType: Task
+  source:
+    dataConnectorName: my_connector
+    collection: task
+  filterExpressionType: TaskBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: assignedUsers
+      orderByDirections:
+        enableAll: true
+    - fieldName: createdAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: description
+      orderByDirections:
+        enableAll: true
+    - fieldName: projectId
+      orderByDirections:
+        enableAll: true
+    - fieldName: status
+      orderByDirections:
+        enableAll: true
+    - fieldName: taskId
+      orderByDirections:
+        enableAll: true
+    - fieldName: taskName
+      orderByDirections:
+        enableAll: true
+    - fieldName: updatedAt
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: task
+    selectUniques:
+      - queryRootField: taskById
+        uniqueIdentifier:
+          - taskId
+    orderByExpressionType: TaskOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Task
+  permissions:
+    - role: admin
+      select:
+        filter: null
+

@@ -1,0 +1,104 @@
+{
+  "name": "project",
+  "collections": {
+    "project": {
+      "type": "project"
+    }
+  },
+  "objectTypes": {
+    "project": {
+      "fields": {
+        "_id": {
+          "type": {
+            "scalar": "objectId"
+          }
+        },
+        "createdAt": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "description": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "projectId": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "projectName": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "tasks": {
+          "type": {
+            "nullable": {
+              "arrayOf": {
+                "scalar": "string"
+              }
+            }
+          }
+        },
+        "updatedAt": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "users": {
+          "type": {
+            "nullable": {
+              "arrayOf": {
+                "scalar": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "relationships": {
+    "kind": "Relationship",
+    "version": "v1",
+    "definition": {
+      "name": "taskDetail",
+      "source": "Project",
+      "target": {
+        "model": {
+          "name": "Task",
+          "relationshipType": "Array"
+        }
+      },
+      "mapping": [
+        {
+          "source": {
+            "fieldPath": [
+              {
+                "fieldName": "projectId"
+              }
+            ]
+          },
+          "target": {
+            "modelField": [
+              {
+                "fieldName": "projectId"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,150 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: User
+  fields:
+    - name: id
+      type: ObjectId!
+    - name: createdAt
+      type: String
+    - name: email
+      type: String
+    - name: role
+      type: String
+    - name: updatedAt
+      type: String
+    - name: userId
+      type: String
+    - name: userName
+      type: String
+  graphql:
+    typeName: User
+    inputTypeName: UserInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: my_connector
+      dataConnectorObjectType: user
+      fieldMapping:
+        id:
+          column:
+            name: _id
+        createdAt:
+          column:
+            name: createdAt
+        email:
+          column:
+            name: email
+        role:
+          column:
+            name: role
+        updatedAt:
+          column:
+            name: updatedAt
+        userId:
+          column:
+            name: userId
+        userName:
+          column:
+            name: userName
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: User
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - createdAt
+          - email
+          - role
+          - updatedAt
+          - userId
+          - userName
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: UserBoolExp
+  objectType: User
+  dataConnectorName: my_connector
+  dataConnectorObjectType: user
+  comparableFields:
+    - fieldName: id
+      operators:
+        enableAll: true
+    - fieldName: createdAt
+      operators:
+        enableAll: true
+    - fieldName: email
+      operators:
+        enableAll: true
+    - fieldName: role
+      operators:
+        enableAll: true
+    - fieldName: updatedAt
+      operators:
+        enableAll: true
+    - fieldName: userId
+      operators:
+        enableAll: true
+    - fieldName: userName
+      operators:
+        enableAll: true
+  graphql:
+    typeName: UserBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: User
+  objectType: User
+  source:
+    dataConnectorName: my_connector
+    collection: user
+  filterExpressionType: UserBoolExp
+  orderableFields:
+    - fieldName: id
+      orderByDirections:
+        enableAll: true
+    - fieldName: createdAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: email
+      orderByDirections:
+        enableAll: true
+    - fieldName: role
+      orderByDirections:
+        enableAll: true
+    - fieldName: updatedAt
+      orderByDirections:
+        enableAll: true
+    - fieldName: userId
+      orderByDirections:
+        enableAll: true
+    - fieldName: userName
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: user
+    selectUniques:
+      - queryRootField: userById
+        uniqueIdentifier:
+          - userId
+    orderByExpressionType: UserOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: User
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
